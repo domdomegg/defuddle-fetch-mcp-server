@@ -1,25 +1,53 @@
-# typescript-library-template
+# defuddle-fetch-mcp-server
 
-Personal template for creating TypeScript libraries.
+A Model Context Protocol server that provides web content fetching capabilities using the [Defuddle](https://github.com/kepano/defuddle) library. This server enables LLMs to retrieve and process content from web pages, automatically cleaning up the HTML and converting it to clean, readable markdown.
 
-## Quick start
+This is a drop-in replacement for the [default fetch MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) that uses [Readability](https://github.com/mozilla/readability). This generally provides better results for most modern webpages.
 
-1. If it should be published to NPM, add the `NPM_TOKEN` secret (make sure not to leave a trailing newline in there!). Otherwise, add `"private": true` in `package.json`.
-2. Update the package name, description and repo URL in `package.json`
-3. Enable 'Allow GitHub Actions to create and approve pull requests' in _Settings > Actions (General) > `Workflow permissions_
-4. Set protection on the master branch: require a pull request before merging, require reivew from code owners, require status checks to pass (select both ci options)
-5. Add the repo to the [file sync automation rules](https://github.com/domdomegg/domdomegg/blob/master/.github/workflows/repo-file-sync.yaml)
-6. Update the README, using the template commented out below
+## Features
 
-<!--
+- **Better Content Extraction**: Uses Defuddle to remove webpage clutter and extract main content
+- **Flexible Output**: Supports both markdown and raw HTML output
+- **Chunked Reading**: Supports pagination with `start_index` and `max_length` parameters
+- **Rich Metadata**: Extracts title, author, publication date, word count, and more
 
-# TODO: name of library
+## Installation
 
-TODO: A short description of what the library does, explaining why people might want to use it.
+To use this server with the Claude Desktop app, add the following configuration to the "mcpServers" section of your `claude_desktop_config.json`:
 
-## Usage
+```json
+{
+  "mcpServers": {
+    "defuddle-fetch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "defuddle-fetch-mcp-server"
+      ]
+    }
+  }
+}
+```
 
-TODO: usage instructions
+## Components
+
+### Tools
+
+- **fetch**
+  - Fetches a URL from the internet and extracts its contents as clean, markdown text using Defuddle
+  - Input parameters:
+    - `url` (string, required): URL to fetch
+    - `max_length` (number, optional): Maximum number of characters to return. Defaults to 5000.
+    - `start_index` (number, optional): Start content from this character index. Defaults to 0.
+    - `raw` (boolean, optional): Get raw content without markdown conversion. Defaults to false.
+  - Returns cleaned content with metadata including title, author, publication date, word count, domain, and processing time
+
+### Prompts
+
+- **fetch**
+  - Fetch a URL and extract its contents as clean, markdown text
+  - Arguments:
+    - `url` (string, required): URL to fetch
 
 ## Contributing
 
@@ -31,6 +59,21 @@ Pull requests are welcomed on GitHub! To get started:
 4. Run `npm run test` to run tests
 5. Build with `npm run build`
 
+To add it to Claude Desktop, run `npm run build` then add the following configuration to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "defuddle-fetch": {
+      "command": "node",
+      "args": [
+        "/path/to/clone/defuddle-fetch-mcp-server/dist/index.js"
+      ]
+    }
+  }
+}
+```
+
 ## Releases
 
 Versions follow the [semantic versioning spec](https://semver.org/).
@@ -40,5 +83,3 @@ To release:
 1. Use `npm version <major | minor | patch>` to bump the version
 2. Run `git push --follow-tags` to push with tags
 3. Wait for GitHub Actions to publish to the NPM registry.
-
--->
