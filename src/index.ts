@@ -49,29 +49,11 @@ server.addTool({
 			let {content} = result;
 			content = content.substring(args.start_index, args.start_index + args.max_length);
 
-			const metadata = [
-				`**URL:** ${args.url}`,
-				`**Title:** ${result.title || 'N/A'}`,
-				`**Author:** ${result.author || 'N/A'}`,
-				`**Published:** ${result.published || 'N/A'}`,
-				`**Word Count:** ${result.wordCount}`,
-				`**Domain:** ${result.domain || 'N/A'}`,
-				`**Parse Time:** ${result.parseTime}ms`,
-			];
-
-			if (result.description) {
-				metadata.push(`**Description:** ${result.description}`);
-			}
-
 			const response = {
 				content: [
 					{
 						type: 'text' as const,
-						text: `# ${result.title || 'Untitled'}\n\n${content}`,
-					},
-					{
-						type: 'text' as const,
-						text: `\n\n---\n\n**Metadata:**\n${metadata.join('\n')}`,
+						text: `# ${result.title || 'Untitled'}\n\n**URL**: ${args.url}\n\n${content}`,
 					},
 				],
 				isError: false,
