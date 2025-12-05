@@ -1,6 +1,6 @@
 {
   "name": "defuddle-fetch-mcp-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Fetch content from the web, cleaned up nicely for LLMs (using Defuddle)",
   "license": "MIT",
   "author": "Adam Jones (domdomegg)",
