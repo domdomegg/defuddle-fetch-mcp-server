@@ -1,0 +1,31 @@
+{
+  "manifest_version": "0.3",
+  "name": "defuddle-fetch-mcp-server",
+  "display_name": "Defuddle Fetch",
+  "version": "{{VERSION}}",
+  "description": "Fetch content from the web, cleaned up nicely for LLMs (using Defuddle)",
+  "author": {
+    "name": "Adam Jones (domdomegg)",
+    "url": "https://github.com/domdomegg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/domdomegg/defuddle-fetch-mcp-server"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {}
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

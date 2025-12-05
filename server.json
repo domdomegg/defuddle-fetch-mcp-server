@@ -1,0 +1,33 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "io.github.domdomegg/defuddle-fetch-mcp-server",
+  "title": "Defuddle Fetch",
+  "description": "Fetch content from the web, cleaned up nicely for LLMs (using Defuddle).",
+  "websiteUrl": "https://github.com/domdomegg/defuddle-fetch-mcp-server#readme",
+  "repository": {
+    "url": "https://github.com/domdomegg/defuddle-fetch-mcp-server.git",
+    "source": "github"
+  },
+  "version": "{{VERSION}}",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "defuddle-fetch-mcp-server",
+      "version": "{{VERSION}}",
+      "runtimeHint": "npx",
+      "environmentVariables": [],
+      "transport": {
+        "type": "stdio"
+      }
+    },
+    {
+      "registryType": "mcpb",
+      "identifier": "https://github.com/domdomegg/defuddle-fetch-mcp-server/releases/download/v{{VERSION}}/defuddle-fetch-mcp-server.mcpb",
+      "version": "{{VERSION}}",
+      "fileSha256": "{{MCPB_FILE_SHA256}}",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
