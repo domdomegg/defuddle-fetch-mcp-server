@@ -74,28 +74,6 @@ server.registerTool(
 	},
 );
 
-server.registerPrompt(
-	'fetch',
-	{
-		title: 'Fetch URL',
-		description: 'Fetch a URL and extract its contents as clean, readable text',
-		argsSchema: {
-			url: z.string().url().describe('URL to fetch'),
-		},
-	},
-	({url}) => ({
-		messages: [
-			{
-				role: 'user',
-				content: {
-					type: 'text',
-					text: `Please fetch the content from this URL and provide a clean, readable summary: ${url}`,
-				},
-			},
-		],
-	}),
-);
-
 // Start the server
 const transport = new StdioServerTransport();
 void server.connect(transport);
