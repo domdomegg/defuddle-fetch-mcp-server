@@ -14,10 +14,10 @@
   },
   "server": {
     "type": "node",
-    "entry_point": "dist/index.js",
+    "entry_point": "dist/src/index.js",
     "mcp_config": {
       "command": "node",
-      "args": ["${__dirname}/dist/index.js"],
+      "args": ["${__dirname}/dist/src/index.js"],
       "env": {}
     }
   },
