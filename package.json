@@ -17,12 +17,14 @@
   "files": [
     "dist"
   ],
+  "mcpName": "io.github.domdomegg/defuddle-fetch-mcp-server",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest --watch",
     "lint": "eslint",
     "clean": "rm -rf dist",
     "build": "tsc --project tsconfig.build.json",
+    "build:mcpb": "./build-mcpb.sh",
     "prepublishOnly": "npm run clean && npm run build"
   },
   "devDependencies": {
