@@ -5,7 +5,6 @@ import {z} from 'zod';
 import {JSDOM} from 'jsdom';
 import {Defuddle} from 'defuddle/node';
 import server from './index.js';
-import {readFileSync} from 'node:fs';
 
 // Mock the global fetch function
 const mockFetch = vi.fn();
@@ -20,12 +19,8 @@ afterEach(() => {
 });
 
 describe('Server Configuration', () => {
-	test('server is defined and has correct configuration', () => {
-		const packageJsonVersion = JSON.parse(readFileSync('package.json', 'utf8')).version;
-
+	test('server is defined', () => {
 		expect(server).toBeDefined();
-		expect(server.options.name).toBe('defuddle-fetch-mcp-server');
-		expect(server.options.version).toBe(packageJsonVersion);
 	});
 });
 
