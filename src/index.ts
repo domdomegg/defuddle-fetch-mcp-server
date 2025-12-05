@@ -1,32 +1,34 @@
 #!/usr/bin/env node
 
-import {FastMCP} from 'fastmcp';
+import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
+import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {z} from 'zod';
 import {JSDOM} from 'jsdom';
 import {Defuddle} from 'defuddle/node';
 import packageJson from '../package.json' with { type: 'json' };
 
-const server = new FastMCP({
+const server = new McpServer({
 	name: 'defuddle-fetch-mcp-server',
-	version: packageJson.version as `${number}.${number}.${number}`,
+	version: packageJson.version,
 });
 
-server.addTool({
-	name: 'fetch',
-	description: 'Fetches a URL from the internet and extracts its contents as clean, readable text using Defuddle',
-	parameters: z.object({
-		url: z.string().url().describe('URL to fetch'),
-		max_length: z.number().int().positive().optional().default(5000).describe('Maximum number of characters to return'),
-		start_index: z.number().int().min(0).optional().default(0).describe('Start content from this character index'),
-		raw: z.boolean().optional().default(false).describe('Get raw content without markdown conversion'),
-	}),
-	async execute(args, {log}) {
+server.registerTool(
+	'fetch',
+	{
+		title: 'Fetch URL',
+		description: 'Fetches a URL from the internet and extracts its contents as clean, readable text using Defuddle',
+		inputSchema: {
+			url: z.string().url().describe('URL to fetch'),
+			max_length: z.number().int().positive().optional().default(5000).describe('Maximum number of characters to return'),
+			start_index: z.number().int().min(0).optional().default(0).describe('Start content from this character index'),
+			raw: z.boolean().optional().default(false).describe('Get raw content without markdown conversion'),
+		},
+	},
+	async (args) => {
 		try {
-			log.debug('Fetching URL', {url: args.url});
 			const res = await (await fetch(args.url)).text();
 
 			if (args.raw) {
-				log.debug('Returning raw result');
 				const trimmed = res.substring(args.start_index, args.start_index + args.max_length);
 				return {
 					content: [
@@ -35,11 +37,9 @@ server.addTool({
 							text: trimmed,
 						},
 					],
-					isError: false,
 				};
 			}
 
-			log.debug('Processing content with Defuddle');
 			const dom = new JSDOM(res, {url: args.url});
 			// eslint-disable-next-line new-cap
 			const result = await Defuddle(dom, args.url, {
@@ -50,20 +50,16 @@ server.addTool({
 			let {content} = result;
 			content = content.substring(args.start_index, args.start_index + args.max_length);
 
-			const response = {
+			return {
 				content: [
 					{
 						type: 'text' as const,
 						text: `# ${result.title || 'Untitled'}\n\n**URL**: ${args.url}\n\n${content}`,
 					},
 				],
-				isError: false,
 			};
-
-			return response;
 		} catch (error) {
 			const errorMessage = error instanceof Error ? error.message : String(error);
-			log.error('Failed to fetch URL', {url: args.url, error: errorMessage});
 
 			return {
 				content: [
@@ -76,28 +72,32 @@ server.addTool({
 			};
 		}
 	},
-});
+);
 
-server.addPrompt({
-	name: 'fetch',
-	description: 'Fetch a URL and extract its contents as clean, readable text',
-	arguments: [
-		{
-			name: 'url',
-			description: 'URL to fetch',
-			required: true,
+server.registerPrompt(
+	'fetch',
+	{
+		title: 'Fetch URL',
+		description: 'Fetch a URL and extract its contents as clean, readable text',
+		argsSchema: {
+			url: z.string().url().describe('URL to fetch'),
 		},
-	],
-	async load(args) {
-		return `Please fetch the content from this URL and provide a clean, readable summary: ${args.url}`;
 	},
-});
+	({url}) => ({
+		messages: [
+			{
+				role: 'user',
+				content: {
+					type: 'text',
+					text: `Please fetch the content from this URL and provide a clean, readable summary: ${url}`,
+				},
+			},
+		],
+	}),
+);
 
 // Start the server
-if (import.meta.url === `file://${process.argv[1]}`) {
-	void server.start({
-		transportType: 'stdio',
-	});
-}
+const transport = new StdioServerTransport();
+void server.connect(transport);
 
 export default server;
