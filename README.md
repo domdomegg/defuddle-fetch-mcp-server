@@ -50,13 +50,6 @@ To use this server with the Claude Desktop app, add the following configuration 
     - `raw` (boolean, optional): Get raw content without markdown conversion. Defaults to false.
   - Returns cleaned content with metadata including title, author, publication date, word count, domain, and processing time
 
-### Prompts
-
-- **fetch**
-  - Fetch a URL and extract its contents as clean, markdown text
-  - Arguments:
-    - `url` (string, required): URL to fetch
-
 ## Contributing
 
 Pull requests are welcomed on GitHub! To get started:
