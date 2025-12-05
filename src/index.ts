@@ -4,10 +4,11 @@ import {FastMCP} from 'fastmcp';
 import {z} from 'zod';
 import {JSDOM} from 'jsdom';
 import {Defuddle} from 'defuddle/node';
+import packageJson from '../package.json' with { type: 'json' };
 
 const server = new FastMCP({
 	name: 'defuddle-fetch-mcp-server',
-	version: '1.0.0',
+	version: packageJson.version as `${number}.${number}.${number}`,
 });
 
 server.addTool({
