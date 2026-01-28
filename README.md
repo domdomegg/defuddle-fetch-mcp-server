@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/domdomegg-defuddle-fetch-mcp-server-badge.png)](https://mseep.ai/app/domdomegg-defuddle-fetch-mcp-server)
+
 # defuddle-fetch-mcp-server
 
 A Model Context Protocol server that provides web content fetching capabilities using the [Defuddle](https://github.com/kepano/defuddle) library. This server enables LLMs to retrieve and process content from web pages, automatically cleaning up the HTML and converting it to clean, readable markdown.
