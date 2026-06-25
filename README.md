@@ -21,7 +21,7 @@ This is a drop-in replacement for the [default fetch MCP server](https://github.
 
 ## Installation
 
-Follow the up-to-date instructions on [install-mcp](https://adamjones.me/install-mcp/?config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRlZnVkZGxlLWZldGNoLW1jcC1zZXJ2ZXIiXSwibmFtZSI6ImRlZnVkZGxlLWZldGNoIn0=), which generates the right config for your MCP client (Claude Code, Claude Desktop, Cursor, Cline, VS Code, and more).
+Follow the instructions on [install-mcp](https://adamjones.me/install-mcp/?config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImRlZnVkZGxlLWZldGNoLW1jcC1zZXJ2ZXIiXSwibmFtZSI6ImRlZnVkZGxlLWZldGNoIn0=), which generates the right config for your MCP client (Claude Code, Claude Desktop, Cursor, Cline, VS Code, and more).
 
 ## Components
 
